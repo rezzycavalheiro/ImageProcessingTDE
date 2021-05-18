@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 picturePath = pictureFile.getAbsolutePath();
                 Uri photouri = FileProvider.getUriForFile(
                         MainActivity.this,
-                        "com.example.lavacarapp.fileprovider",
+                        "com.example.imageprocessing.fileprovider",
                         pictureFile
                 );
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,photouri);
