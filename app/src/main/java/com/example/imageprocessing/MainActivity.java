@@ -10,7 +10,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +26,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     static final int GALLERY_SELECT_IMAGE = 4001;
     ImageView imageViewCamera;
     String picturePath;
+    Bitmap picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +132,17 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 File file = new File(picturePath);
                 if(file.exists()){
-                    imageViewCamera.setImageURI(Uri.fromFile(file));
+                    Uri image = Uri.fromFile(file);
+                    imageViewCamera.setImageURI(image);
                     galleryAddPic(picturePath);
+                    try {
+                        // Pega a imagem tirada pela câmera e converte em bitmap
+                        InputStream is = getContentResolver().openInputStream(image);
+                        picture = BitmapFactory.decodeStream(is);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
             else {
@@ -156,9 +173,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // CONVERTER FOTO PARA ESCALA DE CINZA
-    public void orderPageButton(View view){
+    public void convertButton(View view){
 //        Intent orderPage = new Intent(this, OrderPage.class);
 //        CarModel.getInstance().carsArray.add(new CarPictures(picturePath));
 //        startActivity(orderPage);
+        Bitmap grayPic = grayScale(picture);
+        imageViewCamera.setImageBitmap(grayPic);
+    }
+
+    public Bitmap grayScale(Bitmap picture){
+        int width, height;
+
+        // Pega as dimensões da imagem
+        height = picture.getHeight();
+        width = picture.getWidth();
+
+        // RGB_565: elimina o canal de transparência reduzindo o range de valores para os componentes RGB
+        Bitmap toGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(toGrayscale);
+        Paint paint = new Paint();
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(colorMatrix);
+        paint.setColorFilter(f);
+        c.drawBitmap(picture, 0, 0, paint);
+        return toGrayscale;
     }
 }
