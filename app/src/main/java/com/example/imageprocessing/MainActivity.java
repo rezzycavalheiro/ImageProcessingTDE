@@ -159,8 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(path[0]);
                 picturePath = cursor.getString(columnIndex);
+                picture = BitmapFactory.decodeFile(picturePath);
 
-                imageViewCamera.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                imageViewCamera.setImageBitmap(picture);
                 cursor.close();
             }
         }
@@ -174,11 +175,14 @@ public class MainActivity extends AppCompatActivity {
 
     // CONVERTER FOTO PARA ESCALA DE CINZA
     public void convertButton(View view){
-//        Intent orderPage = new Intent(this, OrderPage.class);
-//        CarModel.getInstance().carsArray.add(new CarPictures(picturePath));
-//        startActivity(orderPage);
-        Bitmap grayPic = grayScale(picture);
-        imageViewCamera.setImageBitmap(grayPic);
+        if(picture != null) {
+            Bitmap grayPic = grayScale(picture);
+            imageViewCamera.setImageBitmap(grayPic);
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Nenhuma imagem selecionada.",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public Bitmap grayScale(Bitmap picture){
