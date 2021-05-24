@@ -298,3 +298,7 @@ public class MainActivity extends AppCompatActivity {
         return toGrayscale;
     }
 }
+
+// REFERÊNCIAS:
+// https://www.tutorialspoint.com/dip/grayscale_to_rgb_conversion.htm#:~:text=Average%20method%20is%20the%20most,Its%20done%20in%20this%20way.
+// http://wiki.gis.com/wiki/index.php/Saturation_(Color_Theory)
