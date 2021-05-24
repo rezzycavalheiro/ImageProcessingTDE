@@ -173,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(gallery, GALLERY_SELECT_IMAGE);
     }
 
-    // CONVERTER FOTO PARA ESCALA DE CINZA
-    public void convertButton(View view){
+    // CONVERTER FOTO PARA ESCALA DE CINZA USANDO SATURAÇÃO
+    public void convertSaturationButton(View view){
         if(picture != null) {
-            Bitmap grayPic = grayScale(picture);
+            Bitmap grayPic = grayScaleSaturation(picture);
             imageViewCamera.setImageBitmap(grayPic);
         }
         else {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Bitmap grayScale(Bitmap picture){
+    public Bitmap grayScaleSaturation(Bitmap picture){
         int width, height;
 
         // Pega as dimensões da imagem
@@ -196,11 +196,105 @@ public class MainActivity extends AppCompatActivity {
         Bitmap toGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         Canvas c = new Canvas(toGrayscale);
         Paint paint = new Paint();
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(colorMatrix);
+        ColorMatrix matrix = new ColorMatrix();
+        // Primeira maneira: mudar a saturação para 0
+        /*
+        Na teoria da cor, a saturação define uma faixa de cor pura (100%) a cinza (0%).
+        A saturação é algumas vezes referida como intensidade da cor, uma cor totalmente saturada
+        é uma cor pura, enquanto uma cor totalmente dessaturada aparece como cinza.
+         */
+        matrix.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(matrix);
         paint.setColorFilter(f);
         c.drawBitmap(picture, 0, 0, paint);
+
+        return toGrayscale;
+    }
+
+    // CONVERTER FOTO PARA ESCALA DE CINZA USANDO A MÉDIA
+    public void convertAverageButton(View view){
+        if(picture != null) {
+            Bitmap grayPic = grayScaleAverage(picture);
+            imageViewCamera.setImageBitmap(grayPic);
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Nenhuma imagem selecionada.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Bitmap grayScaleAverage(Bitmap picture){
+        int width, height;
+
+        // Pega as dimensões da imagem
+        height = picture.getHeight();
+        width = picture.getWidth();
+
+        // RGB_565: elimina o canal de transparência reduzindo o range de valores para os componentes RGB
+        Bitmap toGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(toGrayscale);
+        Paint paint = new Paint();
+        // Segunda maneira: calcular a média dos três canais RGB
+        /*
+        O método da média é o mais simples. Você só precisa tirar a média das três cores.
+        Como é uma imagem RGB, isso significa que você adiciona R com G com B, e divide por 3
+        para obter a imagem em tons de cinza desejada.
+        É feito desta forma:
+        Tons de cinza = (R + G + B / 3)
+         */
+        float[] matrix = new float[]{
+                1/3f, 1/3f, 1/3f, 0, 0,
+                1/3f, 1/3f, 1/3f, 0, 0,
+                1/3f, 1/3f, 1/3f, 0, 0,
+                0, 0, 0, 1, 0,};
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        paint.setColorFilter(filter);
+        c.drawBitmap(picture, 0, 0, paint);
+
+        return toGrayscale;
+    }
+
+    // CONVERTER FOTO PARA ESCALA DE CINZA USANDO A MÉDIA
+    public void convertWeightedButton(View view){
+        if(picture != null) {
+            Bitmap grayPic = grayScaleWeighted(picture);
+            imageViewCamera.setImageBitmap(grayPic);
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Nenhuma imagem selecionada.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Bitmap grayScaleWeighted(Bitmap picture){
+        int width, height;
+
+        // Pega as dimensões da imagem
+        height = picture.getHeight();
+        width = picture.getWidth();
+
+        // RGB_565: elimina o canal de transparência reduzindo o range de valores para os componentes RGB
+        Bitmap toGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(toGrayscale);
+        Paint paint = new Paint();
+        // Terceira maneira: calcular o peso de cada canal RGB de maneira diferente
+        /*
+        A cor vermelha tem o maior comprimento de onda dentre todas as três cores, e o verde
+        é a cor que não só tem menor comprimento de onda do que a cor vermelha, como também é a
+        cor que dá mais efeito calmante aos olhos. Isso significa que temos que diminuir a
+        contribuição da cor vermelha e aumentar a contribuição da cor verde e colocar a
+        contribuição da cor azul entre essas duas. Assim, a nova equação é:
+        Nova imagem em tons de cinza = ((0,3 * R) + (0,59 * G) + (0,11 * B)).
+         */
+        float[] matrix = new float[]{
+                0.3f, 0.59f, 0.11f, 0, 0,
+                0.3f, 0.59f, 0.11f, 0, 0,
+                0.3f, 0.59f, 0.11f, 0, 0,
+                0, 0, 0, 1, 0,};
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        paint.setColorFilter(filter);
+        c.drawBitmap(picture, 0, 0, paint);
+
         return toGrayscale;
     }
 }

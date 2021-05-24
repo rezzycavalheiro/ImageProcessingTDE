@@ -4,9 +4,12 @@
     <string name="open_cam_title">Abrir câmera</string>
     <string name="camera_logo">Camera logo</string>
     <string name="galery_button">Galeria</string>
-    <string name="back_order_Sent">Converter</string>
+    <string name="back_order_Sent">Saturação</string>
     <string name="camera_logo_for_picture">Camera logo for picture</string>
     <string name="adicionar_foto_button">Adicionar foto</string>
     <string name="abrir_galeria_title">Abrir galeria</string>
     <string name="gallery_description_pic">gallery_description</string>
+    <string name="peso">Peso</string>
+    <string name="media">Média</string>
+    <string name="converter_usando">Converter usando:</string>
 </resources>

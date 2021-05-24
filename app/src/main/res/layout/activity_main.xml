@@ -6,6 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="92dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="sans-serif-condensed"
+        android:onClick="convertWeightedButton"
+        android:text="@string/peso"
+        app:backgroundTint="#30A1C6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toEndOf="@+id/button4" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="92dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="sans-serif-condensed"
+        android:onClick="convertAverageButton"
+        android:text="@string/media"
+        app:backgroundTint="#30A1C6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
@@ -15,7 +49,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="224dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/abrir_galeria_title"
         android:textColor="#30A1C6"
@@ -28,16 +62,17 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_width="115dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="36dp"
         android:fontFamily="sans-serif-condensed"
-        android:onClick="convertButton"
+        android:onClick="convertSaturationButton"
         android:text="@string/back_order_Sent"
         app:backgroundTint="#30A1C6"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewCamera"
-        app:layout_constraintStart_toStartOf="@+id/imageViewCamera" />
+        app:layout_constraintStart_toEndOf="@+id/button2" />
 
     <TextView
         android:id="@+id/textView4"
@@ -61,7 +96,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="224dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/open_cam_title"
         android:textColor="#30A1C6"
@@ -89,16 +124,17 @@
 
     <ImageView
         android:id="@+id/imageViewCamera"
-        android:layout_width="304dp"
-        android:layout_height="314dp"
+        android:layout_width="303dp"
+        android:layout_height="330dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/camera_logo_for_picture"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.384"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
@@ -115,5 +151,19 @@
         app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="0.026" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/converter_usando"
+        android:textColor="#050505"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
